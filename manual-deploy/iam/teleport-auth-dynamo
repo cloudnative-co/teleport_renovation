@@ -1,0 +1,20 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "dynamodb:*",
+            "Resource": "arn:aws:dynamodb:REGION:AWS-ACCOUNT-ID:table/cn-teleport"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "dynamodb:*",
+            "Resource": "arn:aws:dynamodb:REGION:AWS-ACCOUNT-ID:table/cn-teleport-events"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "dynamodb:*",
+            "Resource": "arn:aws:dynamodb:REGION:AWS-ACCOUNT-ID:table/cn-teleport-events/index/*"
+        }
+    ]
+}

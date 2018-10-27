@@ -1,0 +1,11 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllActionsOnLocks",
+            "Effect": "Allow",
+            "Action": "dynamodb:*",
+            "Resource": "arn:aws:dynamodb:REGION:AWS-ACCOUNT-ID:table/cn-teleport-locks"
+        }
+    ]
+}

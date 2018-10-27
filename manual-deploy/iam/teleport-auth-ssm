@@ -1,0 +1,26 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:DescribeParameters",
+                "ssm:GetParameters",
+                "ssm:GetParametersByPath",
+                "ssm:GetParameter",
+                "ssm:PutParameter",
+                "ssm:DeleteParameter"
+            ],
+            "Resource": "arn:aws:ssm:REGION:AWS-ACCOUNT-ID:parameter/teleport/teleport/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kms:Decrypt"
+            ],
+            "Resource": [
+                "arn:aws:kms:REGION:AWS-ACCOUNT-ID:key/KEY-ID"
+            ]
+        }
+    ]
+}
