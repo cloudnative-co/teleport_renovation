@@ -17,13 +17,20 @@ teleport_private_key: private.pem
 # typeがproxy時に指定するAuthサーバーのIPアドレス
 teleport_auth_server_addr: ""
 # typeがproxyもしくはauth-proxy時のdomain名
-teleport_proxy_domain: cn-teleport.cloudnative.co.jp
+teleport_proxy_domain: teleport.dev.cloudnative.co.jp
 # teleportのユーザーのユーザーID
 teleport_uid: 1007
 # authサーバー作成時にのteleportのクラスター名
 teleport_cluster_name: teleport.dev.cloudnative.co.jp
 # リージョン
 teleport_region: ap-northeast-1
+# teleportで使用するS3のBucket名
+teleport_bucket: teleport.dev.cloudnative.co.jp-audit-session
+
+# teleportのサーバーにてLet's encrypt実行時に使用するEMmail
+teleport_email: seba@cloudnative.co.jp
+
+
 # authサーバー作成時のteleportのバックエンドストレージ設定
 teleport_storage:
     type: dynamodb
@@ -31,4 +38,5 @@ teleport_storage:
     table_name: teleport.dev.cloudnative.co.jp
 #    audit_table_name: teleport.dev.cloudnative.co.jp-events
     audit_events_uri: dynamodb://teleport.dev.cloudnative.co.jp-events
-    audit_sessions_uri: s3://teleport.dev.cloudnative.co.jp-audit-session/records
+    audit_sessions_uri: "s3://{{ teleport_bucket }}/records"
+

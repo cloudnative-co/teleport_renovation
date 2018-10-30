@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+set -x
+
+PATH_TO_CHECK="s3://{{ teleport_bucket }}/live/{{ teleport_proxy_domain }}/fullchain.pem"
+S3_BUCKET="{{ teleport_bucket }}"
+DOMAIN="{{ teleport_proxy_domain }}"
+EMAIL="{{ teleport_email }}"
+
+has_fullchain=$(aws s3 ls ${PATH_TO_CHECK} | wc -l)
+if [ $has_fullchain -gt 0 ]
+then
+  echo "${PATH_TO_CHECK} already exists"
+  exit 0
+fi
+
+echo "No certs/keys found in ${S3_BUCKET}. Going to request certificate for ${DOMAIN}."
+certbot certonly -n --agree-tos --email ${EMAIL} --dns-route53 -d ${DOMAIN}
+echo "Got certificate for ${DOMAIN}. Syncing to S3."
+
+aws s3 sync /etc/letsencrypt/ s3://${S3_BUCKET} --sse=AES256

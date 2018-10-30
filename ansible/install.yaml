@@ -5,3 +5,4 @@
   roles:
     - { role: teleport }
     - { role: teleport-ssm-publish-tokens, when: "teleport_type == 'auth' or teleport_type == 'auth-proxy'" }
+    - { role: teleport-get-cert, when: "teleport_type == 'auth' or teleport_type == 'auth-proxy'" }
