@@ -1,0 +1,99 @@
+---
+# -----------------------------------------------------------------------------
+# Teleport設定
+# -----------------------------------------------------------------------------
+# バージョン
+teleport_version: 3.0.1
+
+# アーキテクチャ
+teleport_architecture: linux-amd64
+
+# エディション [enterprise/oss]
+teleport_edition: enterprise
+
+# インストール時の種別 [ node/auth/proxy/auth-proxy ]
+teleport_type: node    
+
+# エディションがenterprise時のライセンスファイルのパス
+teleport_license: license.pem
+
+# TeleportのModule Binaryのインストール先
+teleport_bin_dir: /usr/local/bin/
+
+# Teleportのデータディレクトリ
+teleport_data_dir: /var/lib/teleport/
+
+# typeがproxyもしくはauth-proxy時のSSL証明書のパス
+teleport_certificate: cert.pem
+
+# typeがproxyもしくはauth-proxy時のPrivateKeyのパス
+teleport_private_key: private.pem
+
+# typeがproxy時に指定するAuthサーバーのIPアドレス
+teleport_auth_server_addr: ""
+
+# typeがproxyもしくはauth-proxy時のdomain名
+teleport_proxy_domain: cn-teleport.cloudnative.co.jp
+
+# teleportのユーザーのユーザーID
+teleport_uid: 1007
+
+# authサーバー作成時のteleportのクラスター名
+teleport_cluster_name: cloudnative
+
+teleport_region: ap-northeast-1
+
+# authサーバー作成時のteleportのバックエンドストレージ設定
+teleport_storage:
+    type: dynamodb
+    region: "{{ teleport_region }}"
+    table_name: cn-teleport
+    audit_table_name: cn-teleport-events
+    audit_sessions_uri: s3://cn-teleport.cloudnative.co.jp/records
+
+# -----------------------------------------------------------------------------
+# teleportの設定ファイル用変数
+# -----------------------------------------------------------------------------
+teleport_common:
+    auth_token: /var/lib/teleport/token
+    nodename: "{{ ansible_fqdn }}"
+    advertise_ip: "{{ ansible_default_ipv4.address }}"
+    log:
+        output: stderr
+        severity: DEBUG
+    data_dir: "{{ teleport_data_dir }}"
+    storage: "{{ teleport_storage }}"
+
+# -----------------------------------------------------------------------------
+# teleportの設定ファイル用変数(auth用)
+# -----------------------------------------------------------------------------
+teleport_auth_service:
+    enabled: "yes"
+    listen_addr: 0.0.0.0:3025
+    license_file: "{{ teleport_data_dir }}{{ teleport_license.split('/')[-1] }}"
+    authentication:
+        type: local
+        second_factor: "off"
+        u2f:
+            app_id: https://localhost:3080
+            facets:
+            - https://localhost:3080
+    cluster_name: "{{ teleport_cluster_name }}"
+
+# -----------------------------------------------------------------------------
+# teleportの設定ファイル用変数(proxy用)
+# -----------------------------------------------------------------------------
+teleport_proxy_service:
+    enabled: "yes"
+    listen_addr: 0.0.0.0:3023
+    tunnel_listen_addr: 0.0.0.0:3080
+    web_listen_addr: 0.0.0.0:3080
+    public_addr: "{{ teleport_proxy_domain }}:443"
+    https_cert_file: "{{ teleport_data_dir }}{{ teleport_certificate.split('/')[-1] }}"
+    https_key_file: "{{ teleport_data_dir }}{{ teleport_private_key.split('/')[-1] }}"
+
+# -----------------------------------------------------------------------------
+# teleportの設定ファイル用変数(ssh用)
+# -----------------------------------------------------------------------------
+teleport_ssh_service:
+    enabled: "no"

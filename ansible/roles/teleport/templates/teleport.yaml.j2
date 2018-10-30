@@ -1,0 +1,69 @@
+{# 
+ @brief     YAML Dumper
+ @details   辞書データをYAML形式にダンプして整形出力します
+ #}
+{% macro dumps(key, value, indent=1) %}
+{% if value is string %}
+{{ " "* 4 * indent }}{{- key }}: {{ value }}
+{% elif value is mapping %}
+{{ " "* 4 * indent }}{{- key }}:
+{% for key2, value2 in value.items() %}
+{{- dumps(key2, value2, indent + 1) -}}
+{% endfor %}
+{% elif value is iterable %}
+{{ " "* 4 * indent }}{{- key }}:
+{% for value2 in value %}
+{{ " "* 4 * indent }}- {{ value2 }}
+{% endfor %}
+{% endif %}
+{% endmacro %}
+
+
+{#- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ teleportの設定出力
+ 設定されているteleport_commonの中身を出力
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #}
+teleport:
+{% for key, value in teleport_common.items() %}
+{{- dumps(key, value) -}}
+{% endfor %}
+
+{#-
+ teleport_authの値がTrueだったら
+ teleport_auth_serviceの設定出力
+ 設定されているteleport_auth_serviceの中身を出力
+ #}
+{%- if teleport_auth_service is defined %}
+
+auth_service:
+{% for key, value in teleport_auth_service.items() %}
+{{- dumps(key, value) -}}
+{% endfor %}
+{% endif %}
+
+{#- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ teleport_proxyの値がTrueだったら
+ teleport_proxy_serviceの設定出力
+ 設定されているteleport_proxy_serviceの中身を出力
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #}
+{%- if teleport_proxy_service is defined %}
+
+proxy_service:
+{% for key, value in teleport_proxy_service.items() %}
+{{- dumps(key, value) -}}
+{% endfor %}
+{% endif %}
+
+
+{#- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+ teleport_sshの値がTrueだったら
+ teleport_ssh_serviceの設定出力
+ 設定されているteleport_ssh_serviceの中身を出力
+ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #}
+{%- if teleport_ssh_service is defined %}
+
+ssh_service:
+{% for key, value in teleport_ssh_service.items() %}
+{{- dumps(key, value) -}}
+{% endfor %}
+{% endif %}

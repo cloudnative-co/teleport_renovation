@@ -1,0 +1,40 @@
+- debug:
+    msg: "Install Teleport SSM Publisher"
+
+- template:
+    src: templates/teleport-lock.j2
+    dest: /usr/local/bin/teleport-lock
+    mode: "0755"
+  sudo: yes
+
+- template:
+    src: templates/teleport-ssm-publish-tokens.j2
+    dest: /usr/local/bin/teleport-ssm-publish-tokens
+    mode: "0755"
+  sudo: yes
+
+- template:
+    src: templates/teleport-ssm-publish-tokens.service.j2
+    dest: /etc/systemd/system/teleport-ssm-publish-tokens.service
+    mode: "u+rwx,g-wx,o-wx"
+  sudo: yes
+
+- template:
+    src: templates/teleport-ssm-publish-tokens.timer.j2
+    dest: /etc/systemd/system/teleport-ssm-publish-tokens.timer
+    mode: "u+rwx,g-wx,o-wx"
+  sudo: yes
+
+- systemd:
+    name: teleport-ssm-publish-tokens.service
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  become: yes
+
+- systemd:
+    name: teleport-ssm-publish-tokens.timer
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+  become: yes

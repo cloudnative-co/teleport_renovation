@@ -1,0 +1,3 @@
+# packgeモジュールを用いてパッケージを構成 グローバルな変数{{ state }}の値にpresent/installed/latest/absent/removedを指定
+- name: gitクライアントのインストール
+  package: name=git state={{ state }}

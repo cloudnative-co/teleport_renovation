@@ -1,0 +1,7 @@
+[Unit]
+Description=Service rotating teleport tokens
+
+[Service]
+Type=oneshot
+ExecStartPre={{ teleport_bin_dir }}teleport-lock
+ExecStart={{ teleport_bin_dir }}teleport-ssm-publish-tokens

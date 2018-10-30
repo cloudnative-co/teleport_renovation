@@ -1,0 +1,35 @@
+#!/bin/bash
+set -x
+
+LOCK=/teleport/{{ teleport_cluster_name }}
+NOW=$(date +%s)
+TTL=$(($NOW+3660))
+PROCESS={{ ansible_fqdn }}
+echo locking $PROCESS for $TTL
+
+aws dynamodb describe-table \
+    --region {{ teleport_region }} \
+    --table-name {{ teleport_cluster_name }}-locks
+if [ $? -ne 0 ]; then
+    aws dynamodb create-table \
+        --region {{ teleport_region }} \
+        --table-name {{ teleport_cluster_name }}-locks \
+        --attribute-definitions '[{"AttributeName":"Lock","AttributeType": "S"}]' \
+        --key-schema '[{"AttributeName":"Lock","KeyType": "HASH"}]' \
+        --provisioned-throughput '{"ReadCapacityUnits": 10,"WriteCapacityUnits": 10}'
+fi
+
+# Either renew the lease if agent still holds it, or grab the lease if it's expired
+aws dynamodb put-item \
+    --region {{ teleport_region }} \
+    --table-name {{ teleport_cluster_name }}-locks \
+    --item  "{\"Lock\": {\"S\": \"/auth/servers\"}, \"Expires\": {\"S\": \"${TTL}\"}, \"Process\": {\"S\": \"${PROCESS}\"}}" \
+    --condition-expression="(attribute_not_exists(Expires) OR Expires <= :timestamp) OR Process = :process"\
+    --expression-attribute-values "{\":timestamp\":{\"S\":\"${NOW}\"}, \":process\":{\"S\": \"${PROCESS}\"}}"
+
+if [ $? -eq 0 ]; then
+    echo "Renewed or locked the lease for $PROCESS until $(date -d @$TTL)"
+else
+    echo "Could get renew lease, locked by other process"
+    exit 255
+fi

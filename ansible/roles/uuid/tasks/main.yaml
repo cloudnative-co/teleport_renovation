@@ -1,0 +1,4 @@
+- package:
+    name: uuid
+    state: present
+  sudo: yes

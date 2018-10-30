@@ -1,0 +1,2 @@
+---
+teleport_url: "{% if teleport_edition == 'oss' %}https://get.gravitational.com/teleport-v{{ teleport_version}}-{{teleport_architecture}}-bin.tar.gz{% else %}https://get.gravitational.com/teleport/{{teleport_version}}/teleport-ent-v{{teleport_version}}-{{teleport_architecture}}-bin.tar.gz{% endif %}"

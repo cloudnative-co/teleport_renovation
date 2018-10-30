@@ -1,0 +1,28 @@
+teleport_common:
+    nodename: "{{ ansible_fqdn }}"
+    advertise_ip: "{{ ansible_default_ipv4.address }}"
+    log:
+        output: stderr
+        severity: DEBUG
+    data_dir: "{{ teleport_data_dir }}"
+    storage: "{{ teleport_storage }}"
+
+teleport_auth_service:
+    enabled: "yes"
+    listen_addr: 0.0.0.0:3025
+
+    license_file: "{{ teleport_data_dir }}{{ teleport_license.split('/')[-1] }}"
+    authentication:
+        type: local
+        second_factor: "off"
+        u2f:
+            app_id: https://localhost:3080
+            facets:
+            - https://localhost:3080
+    cluster_name: "{{ teleport_cluster_name }}"
+
+teleport_proxy_service:
+    enabled: "no"
+
+teleport_ssh_service:
+    enabled: "no"
