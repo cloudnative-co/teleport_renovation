@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 Restart=always
 RestartSec=5
-{% if not teleport_type == 'auth' %}
+{% if teleport_auth_service.enabled == 'no' %}
 ExecStartPre=/usr/local/bin/teleport-ssm-get-token
 {% endif %}
 {% if teleport_proxy_service.enabled == 'yes' %}

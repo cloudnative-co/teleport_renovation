@@ -73,3 +73,8 @@
          daemon_reload: yes
          enabled: yes
     become: yes
+
+  - name: Wait
+    wait_for:
+        port: 3434
+        delay: 10
