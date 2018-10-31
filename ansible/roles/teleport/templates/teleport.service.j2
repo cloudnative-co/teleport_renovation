@@ -8,9 +8,9 @@ Restart=always
 RestartSec=5
 {% if not teleport_type == 'auth' %}
 ExecStartPre=/usr/local/bin/teleport-ssm-get-token
-{% if not teleport_type == 'auth' and  not teleport_type == 'node' %}
-ExecStartPre=/usr/local/bin/aws s3 sync s3://{{ teleport_bucket }}/live/{{ teleport_proxy_domain }} {{ teleport_data_dir }}
 {% endif %}
+{% if teleport_proxy_service.enabled == 'yes' %}
+ExecStartPre=/usr/local/bin/teleport-push-cert
 {% endif %}
 ExecStart={{ teleport_bin_dir }}teleport start --config=/etc/teleport.yaml --diag-addr=127.0.0.1:3434 --pid-file=/var/run/teleport/teleport.pid -d
 ExecReload=/bin/kill -HUP $MAINPID

@@ -19,6 +19,9 @@
     mode: "0755"
   sudo: yes
 
+- shell: teleport-get-cert
+  become: yes
+
 - systemd:
     name: teleport-get-cert.service
     daemon_reload: yes

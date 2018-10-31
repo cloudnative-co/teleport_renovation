@@ -1,0 +1,5 @@
+- pip: 
+    name: urllib3
+    version: 1.23
+    state: present
+  sudo: yes

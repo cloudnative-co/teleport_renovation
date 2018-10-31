@@ -1,0 +1,7 @@
+[Unit]
+Description=Service pushing teleport certificates from S3
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/teleport-push-cert
+

@@ -1,2 +1,3 @@
 dependencies:
   - { role: pip }
+  - { role: urllib3, when: "ansible_python.version.major <= 2 and ansible_python.version.minor <= 7" }

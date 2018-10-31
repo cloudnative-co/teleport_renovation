@@ -1,12 +1,11 @@
 ---
-  - hosts: debian-teleport-proxy
+  - hosts: debian-teleport-auth
     vars_files:
         - vars/main.yaml
     pre_tasks:
         - include: prompt.yaml
         - include_vars: "vars/{{ teleport_type }}.yaml"
     roles:
-        - { role: teleport-ssm-get-token, when: "teleport_auth_service.enabled  == 'no'" }
         - { role: teleport }
         - { role: teleport-ssm-publish-tokens, when: "teleport_auth_service.enabled  == 'yes'" }
         - { role: teleport-get-cert, when: "teleport_auth_service.enabled  == 'yes'" }

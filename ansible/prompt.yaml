@@ -65,7 +65,7 @@
   - pause:
         prompt: Enter the auth server address
     register: var_regist
-    when: teleport_auth_server_addr == '' and teleport_type != 'auth'
+    when: teleport_auth_server_addr == '' and teleport_type != 'auth' and teleport_type != 'auth-proxy'
   - set_fact:
         teleport_auth_server_addr: "{{ var_regist.user_input }}"
     when: var_regist.user_input is defined

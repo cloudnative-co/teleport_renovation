@@ -1,0 +1,7 @@
+dependencies:
+    # Let's encrypt からCertを取得してS3にアップロード
+  - { role: teleport-get-cert, when: "teleport_auth_service.enabled  == 'yes'" }
+    # S3からCertを取得してローカル保存
+  - { role: teleport-push-cert, when: "teleport_proxy_service.enabled  == 'yes'" }
+    # SSMからtokenを取得する
+  - { role: teleport-ssm-get-token, when: "teleport_type != 'auth'" }

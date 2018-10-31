@@ -1,0 +1,7 @@
+[Unit]
+Description=Timer pushing letsencrypt certificates from S3
+
+[Timer]
+OnBootSec=5min
+OnCalendar=hourly
+Persistent=true

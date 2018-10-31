@@ -1,74 +1,75 @@
-- debug:
-    msg: "Install Teleport {{teleport_edition}} edition version {{ teleport_version }}"
+---
+  - debug:
+        msg: "Install Teleport {{teleport_edition}} edition version {{ teleport_version }}"
 
-- name: Create teleport run directory
-  file:
-    path: "/var/run/teleport"
-    state: directory
-  sudo: yes
+  - name: Create teleport run directory
+    file:
+        path: "/var/run/teleport"
+        state: directory
+    sudo: yes
 
-- name: Create teleport data directory
-  file:
-    path: "{{ teleport_data_dir }}"
-    state: directory
-  sudo: yes
+  - name: Create teleport data directory
+    file:
+        path: "{{ teleport_data_dir }}"
+        state: directory
+    sudo: yes
 
-- name: Get teleport binary
-  unarchive:
-    src: "{{ teleport_url }}"
-    dest: "/tmp/"
-    remote_src: yes
+  - name: Get teleport binary
+    unarchive:
+        src: "{{ teleport_url }}"
+        dest: "/tmp/"
+        remote_src: yes
 
-- set_fact:
-    src_path: "{% if teleport_edition == 'oss' %}/tmp/teleport{% else %}/tmp/teleport-ent{% endif %}"
+  - set_fact:
+        src_path: "{% if teleport_edition == 'oss' %}/tmp/teleport{% else %}/tmp/teleport-ent{% endif %}"
 
-- name: Install teleport binary
-  copy:
-    remote_src: True
-    src: "{{ src_path }}/teleport"
-    dest: "{{ teleport_bin_dir }}"
-    mode: "u+rwx,g-w,o-w"
-  sudo: yes
+  - name: Install teleport binary
+    copy:
+        remote_src: True
+        src: "{{ src_path }}/teleport"
+        dest: "{{ teleport_bin_dir }}"
+        mode: "u+rwx,g-w,o-w"
+    sudo: yes
 
-- name: Install tctl binary
-  copy:
-    remote_src: True
-    src: "{{ src_path }}/tctl"
-    dest: "{{ teleport_bin_dir }}"
-    mode: "u+rwx,g-w,o-w"
-  sudo: yes
+  - name: Install tctl binary
+    copy:
+        remote_src: True
+        src: "{{ src_path }}/tctl"
+        dest: "{{ teleport_bin_dir }}"
+        mode: "u+rwx,g-w,o-w"
+    sudo: yes
 
-- name: Install tsh binary
-  copy:
-    remote_src: True
-    src: "{{ src_path }}/tsh"
-    dest: "{{ teleport_bin_dir }}"
-    mode: "u+rwx,g-w,o-w"
-  sudo: yes
+  - name: Install tsh binary
+    copy:
+        remote_src: True
+        src: "{{ src_path }}/tsh"
+        dest: "{{ teleport_bin_dir }}"
+        mode: "u+rwx,g-w,o-w"
+    sudo: yes
 
-- name: Set teleport enterprise lisence
-  copy:
-    src: "{{ teleport_license }}"
-    dest: "{{ teleport_data_dir }}"
-  sudo: yes
-  when: teleport_edition == 'enterprise'
+  - name: Set teleport enterprise lisence
+    copy:
+        src: "{{ teleport_license }}"
+        dest: "{{ teleport_data_dir }}"
+    sudo: yes
+    when: teleport_edition == 'enterprise'
 
-- name: Set teleport setting file
-  template:
-    src: templates/teleport.yaml.j2
-    dest: /etc/teleport.yaml
-  sudo: yes
+  - name: Set teleport setting file
+    template:
+        src: templates/teleport.yaml.j2
+        dest: /etc/teleport.yaml
+    sudo: yes
 
-- name: Set teleport systemd service file
-  template:
-    src: templates/teleport.service.j2
-    dest: /etc/systemd/system/teleport.service
-  sudo: yes
+  - name: Set teleport systemd service file
+    template:
+        src: templates/teleport.service.j2
+        dest: /etc/systemd/system/teleport.service
+    sudo: yes
 
-- name: Enable teleport systemd service
-  systemd:
-    name: teleport.service
-    state: restarted
-    daemon_reload: yes
-    enabled: yes
-  become: yes
+  - name: Enable teleport systemd service
+    systemd:
+         name: teleport.service
+         state: restarted
+         daemon_reload: yes
+         enabled: yes
+    become: yes
