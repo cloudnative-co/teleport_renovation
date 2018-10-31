@@ -1,0 +1,39 @@
+# バージョン
+teleport_version: 3.0.1
+
+# アーキテクチャ
+teleport_architecture: linux-amd64
+
+# エディション [enterprise/oss]
+teleport_edition: enterprise
+
+# インストール時の種別 [ node/auth/proxy/auth-proxy ]
+teleport_type: ""
+
+# エディションがenterprise時のライセンスファイルのパス
+teleport_license: license.pem
+
+# Teleportのデータディレクトリ
+teleport_data_dir: /var/lib/teleport/
+
+# typeがproxy時に指定するAuthサーバーのIPアドレス
+teleport_auth_server_addr: ""
+
+# typeがproxyもしくはauth-proxy時のdomain名
+teleport_proxy_domain: teleport.dev.cloudnative.co.jp
+
+# authサーバー作成時にのteleportのクラスター名
+teleport_cluster_name: teleport.dev.cloudnative.co.jp
+
+# リージョン
+teleport_region: ap-northeast-1
+
+# teleportで使用するS3のBucket名
+teleport_bucket: teleport.dev.cloudnative.co.jp-audit-session
+
+# teleportのサーバーにてLet's encrypt実行時に使用するEMmail
+teleport_email: seba@cloudnative.co.jp
+
+# teleportで使用するDynamoDBのデーブル名
+teleport_dynamodb_table: teleport.dev.cloudnative.co.jp
+

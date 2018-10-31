@@ -1,0 +1,135 @@
+---
+    # -------------------------------------------------------------------------
+    # インストールするサーバーの種別の指定
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the teleport type [auth/proxy/auth-proxy/node]
+    register: var_regist
+    when: teleport_type == ''
+  - set_fact:
+        teleport_type: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+    # -------------------------------------------------------------------------
+    # バージョンの指定
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the teleport version [ex) 3.0.0-rc.6]
+    register: var_regist
+    when: teleport_version == ''
+  - set_fact:
+        teleport_version: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+    # -------------------------------------------------------------------------
+    # アーキテクチャの指定
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the teleport architecture [ex) 3.0.0-rc.6]
+    register: var_regist
+    when: teleport_architecture == ''
+  - set_fact:
+        teleport_architecture: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+    # -------------------------------------------------------------------------
+    # エディションの指定
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the teleport edition [enterprise/oss]
+    register: var_regist
+    when: teleport_edition == ''
+  - set_fact:
+        teleport_edition: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+    # -------------------------------------------------------------------------
+    # ライセンスのパスの指定
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the teleport license file path
+    register: var_regist
+    when: teleport_license == '' and teleport_edition == 'enterprise'
+  - set_fact:
+        teleport_license: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+    # -------------------------------------------------------------------------
+    # データディレクトリの指定
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the teleport data directory path
+    register: var_regist
+    when: teleport_data_dir == ''
+  - set_fact:
+        teleport_data_dir: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+    # -------------------------------------------------------------------------
+    # authサーバーのアドレスの入力
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the auth server address
+    register: var_regist
+    when: teleport_auth_server_addr == '' and teleport_type != 'auth'
+  - set_fact:
+        teleport_auth_server_addr: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+    # -------------------------------------------------------------------------
+    # ドメイン名
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the teleport domain name
+    register: var_regist
+    when: teleport_proxy_domain == ''
+  - set_fact:
+        teleport_proxy_domain: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+    # -------------------------------------------------------------------------
+    # クラスター名
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the teleport cluster name
+    register: var_regist
+    when: teleport_cluster_name == ''
+  - set_fact:
+        teleport_cluster_name: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+
+    # -------------------------------------------------------------------------
+    # AWS Region
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the aws region
+    register: var_regist
+    when: teleport_region == ''
+  - set_fact:
+        teleport_region: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+
+    # -------------------------------------------------------------------------
+    # AWS S3 Bucket
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the S3 bucket name
+    register: var_regist
+    when: teleport_bucket == ''
+  - set_fact:
+        teleport_bucket: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+
+    # -------------------------------------------------------------------------
+    # AWS DynamoDB Table
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the S3 bucket name
+    register: var_regist
+    when: teleport_dynamodb_table == ''
+  - set_fact:
+        teleport_dynamodb_table: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined
+
+    # -------------------------------------------------------------------------
+    # Let's encrypt email address
+    # -------------------------------------------------------------------------
+  - pause:
+        prompt: Enter the Let's encrypt e-mail address
+    register: var_regist
+    when: teleport_email == ''
+  - set_fact:
+        teleport_email: "{{ var_regist.user_input }}"
+    when: var_regist.user_input is defined

@@ -1,42 +1,46 @@
 # バージョン
 teleport_version: 3.0.1
+
 # アーキテクチャ
 teleport_architecture: linux-amd64
+
 # エディション [enterprise/oss]
 teleport_edition: enterprise
+
 # インストール時の種別 [ node/auth/proxy/auth-proxy ]
-teleport_type: auth
+teleport_type: ""
+
 # エディションがenterprise時のライセンスファイルのパス
 teleport_license: license.pem
+
 # Teleportのデータディレクトリ
 teleport_data_dir: /var/lib/teleport/
-# typeがproxyもしくはauth-proxy時のSSL証明書のパス
-teleport_certificate: cert.pem
-# typeがproxyもしくはauth-proxy時のPrivateKeyのパス
-teleport_private_key: private.pem
+
 # typeがproxy時に指定するAuthサーバーのIPアドレス
 teleport_auth_server_addr: ""
+
 # typeがproxyもしくはauth-proxy時のdomain名
-teleport_proxy_domain: teleport.dev.cloudnative.co.jp
-# teleportのユーザーのユーザーID
-teleport_uid: 1007
+teleport_proxy_domain: ""
+
 # authサーバー作成時にのteleportのクラスター名
-teleport_cluster_name: teleport.dev.cloudnative.co.jp
+teleport_cluster_name: ""
+
 # リージョン
 teleport_region: ap-northeast-1
+
 # teleportで使用するS3のBucket名
-teleport_bucket: teleport.dev.cloudnative.co.jp-audit-session
+teleport_bucket: ""
 
 # teleportのサーバーにてLet's encrypt実行時に使用するEMmail
-teleport_email: seba@cloudnative.co.jp
+teleport_email: ""
 
+# teleportで使用するDynamoDBのデーブル名
+teleport_dynamodb_table: ""
 
 # authサーバー作成時のteleportのバックエンドストレージ設定
 teleport_storage:
     type: dynamodb
     region: "{{ teleport_region }}"
-    table_name: teleport.dev.cloudnative.co.jp
-#    audit_table_name: teleport.dev.cloudnative.co.jp-events
-    audit_events_uri: dynamodb://teleport.dev.cloudnative.co.jp-events
+    table_name: "{{ teleport_dynamodb_table }}"
+    audit_events_uri: "dynamodb://{{ teleport_dynamodb_table }}-events"
     audit_sessions_uri: "s3://{{ teleport_bucket }}/records"
-

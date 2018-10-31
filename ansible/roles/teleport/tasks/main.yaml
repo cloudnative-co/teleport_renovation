@@ -51,21 +51,7 @@
     src: "{{ teleport_license }}"
     dest: "{{ teleport_data_dir }}"
   sudo: yes
-  when: "{{ teleport_edition == 'enterprise'}}"
-
-- name: Copy certificate file
-  copy:
-    src: "{{ teleport_certificate }}"
-    dest: "{{ teleport_data_dir }}"
-  sudo: yes
-  when: "{{ teleport_type == 'proxy' or teleport_type == 'auth-proxy'}}"
-
-- name: Copy private-key file
-  copy:
-    src: "{{ teleport_private_key }}"
-    dest: "{{ teleport_data_dir }}"
-  sudo: yes
-  when: "{{ teleport_type == 'proxy' or teleport_type == 'auth-proxy'}}"
+  when: teleport_edition == 'enterprise'
 
 - name: Set teleport setting file
   template:

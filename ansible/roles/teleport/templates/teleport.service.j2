@@ -4,10 +4,19 @@ After=network.target
 
 [Service]
 Type=simple
-Restart=on-failure
+Restart=always
+RestartSec=5
+{% if not teleport_type == 'auth' %}
+ExecStartPre=/usr/local/bin/teleport-ssm-get-token
+ExecStartPre=/usr/local/bin/aws s3 sync s3://{{ teleport_bucket }}/live/{{ teleport_proxy_domain }} {{ teleport_data_dir }}
+{% endif %}
 ExecStart={{ teleport_bin_dir }}teleport start --config=/etc/teleport.yaml --diag-addr=127.0.0.1:3434 --pid-file=/var/run/teleport/teleport.pid -d
 ExecReload=/bin/kill -HUP $MAINPID
-PIDFile=/var/run/teleport.pid
+PIDFile=/var/run/teleport/teleport.pid
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
 
 [Install]
 WantedBy=multi-user.target

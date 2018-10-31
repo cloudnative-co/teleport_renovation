@@ -1,5 +1,5 @@
 teleport_common:
-  auth_token: /var/lib/teleport/token
+    auth_token: /var/lib/teleport/token
     nodename: "{{ ansible_fqdn }}"
     advertise_ip: "{{ ansible_default_ipv4.address }}"
     log:
@@ -18,8 +18,8 @@ teleport_proxy_service:
     tunnel_listen_addr: 0.0.0.0:3080
     web_listen_addr: 0.0.0.0:3080
     public_addr: "{{ teleport_proxy_domain }}:443"
-    https_cert_file: "{{ teleport_data_dir }}{{ teleport_certificate.split('/')[-1] }}"
-    https_key_file: "{{ teleport_data_dir }}{{ teleport_private_key.split('/')[-1] }}"
+    https_cert_file: "{{ teleport_data_dir }}fullchain.pem"
+    https_key_file: "{{ teleport_data_dir }}privkey.pem"
 
 teleport_ssh_service:
     enabled: "no"
