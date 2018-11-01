@@ -1,0 +1,65 @@
+---
+    # -------------------------------------------------------------------------
+    # DynamoDBのリソースの有無を確認
+    # 既に存在する場合はエラー終了
+    # -------------------------------------------------------------------------
+  - name: check exists dynamo-db
+    shell: aws dynamodb describe-table --region "{{ teleport_region }}" --table-name "{{ teleport_dynamodb_table }}"
+    connection: local
+    register: result
+    failed_when: False
+    changed_when: false
+
+  - fail:
+        msg: "DynamoDB table [{{ teleport_dynamodb_table }}] already exists."
+    when: result.rc == 0
+
+  - name: check exists dynamo-db
+    shell: aws dynamodb describe-table --region "{{ teleport_region }}" --table-name "{{ teleport_dynamodb_table }}-locks"
+    connection: local
+    register: result
+    failed_when: False
+    changed_when: false
+
+  - fail:
+        msg: "DynamoDB table [{{ teleport_dynamodb_table }}]-locks already exists."
+    when: result.rc == 0
+
+  - name: check exists dynamo-db
+    shell: aws dynamodb describe-table --region "{{ teleport_region }}" --table-name "{{ teleport_dynamodb_table }}-events"
+    connection: local
+    register: result
+    failed_when: False
+    changed_when: false
+
+  - fail:
+        msg: "DynamoDB table [{{ teleport_dynamodb_table }}]-events already exists."
+    when: result.rc == 0
+    # -------------------------------------------------------------------------
+    # S3のbucketリソースの有無を確認
+    # 存在しない場合はエラー終了
+    # -------------------------------------------------------------------------
+  - name: check exists S3 bucket
+    shell: aws s3 ls "{{ teleport_bucket }}"
+    connection: local
+    register: result
+    failed_when: False
+    changed_when: false
+
+  - fail:
+        msg: "S3 bucket [{{ teleport_bucket }}] not exists."
+    when: result.rc > 0
+    # -------------------------------------------------------------------------
+    # Route53のHosted-Zoneリソースの有無を確認
+    # 存在しない場合はエラー終了
+    # -------------------------------------------------------------------------
+  - name: check exists route53 hosted-zones
+    shell: aws route53 list-hosted-zones-by-name --dns-name "{{ teleport_proxy_domain }}" --query "HostedZones[?Name=='{{ teleport_proxy_domain }}.'].Name"
+    connection: local
+    register: result
+    failed_when: False
+    changed_when: false
+
+  - fail:
+        msg: "Route53 hosted zone not found."
+    when: "'[]' in result.stdout_lines"

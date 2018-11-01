@@ -17,6 +17,20 @@ if [ $? -ne 0 ]; then
         --attribute-definitions '[{"AttributeName":"Lock","AttributeType": "S"}]' \
         --key-schema '[{"AttributeName":"Lock","KeyType": "HASH"}]' \
         --provisioned-throughput '{"ReadCapacityUnits": 10,"WriteCapacityUnits": 10}'
+    echo "Create {{ teleport_cluster_name }}-locks Table in DynamoDB"
+    aws dynamodb describe-table \
+        --region {{ teleport_region }} \
+        --table-name {{ teleport_cluster_name }}-locks > /dev/null 2>&1
+    result=$?
+    while [ $result -ne 0 ]; do
+        aws dynamodb describe-table \
+            --region {{ teleport_region }} \
+            --table-name {{ teleport_cluster_name }}-locks > /dev/null 2>&1
+        result=$?
+        sleep 1
+    done
+    echo "Create successfully completed"
+    sleep 10
 fi
 
 # Either renew the lease if agent still holds it, or grab the lease if it's expired

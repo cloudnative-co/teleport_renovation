@@ -74,7 +74,20 @@
          enabled: yes
     become: yes
 
-  - name: Wait
+  - name: Wait 3025
     wait_for:
-        port: 3434
+        port: 3025
         delay: 10
+    when: teleport_auth_service.enabled == 'yes'
+
+  - name: Wait 3080
+    wait_for:
+        port: 3080
+        delay: 10
+    when: teleport_proxy_service.enabled == 'yes'
+
+  - name: Wait Port 3022
+    wait_for:
+        port: 3022
+        delay: 10
+    when: teleport_proxy_service.enabled == 'no' and teleport_auth_service.enabled == 'no'

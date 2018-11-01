@@ -1,10 +1,20 @@
 ---
-  - hosts: debian-teleport-auth
+  - hosts: debian-teleport-auth-proxy
     vars_files:
         - vars/main.yaml
     pre_tasks:
+        # パラメーター指定用プロンプト
         - include: prompt.yaml
+
+        # teleport.yaml用パラメータの読み込み
         - include_vars: "vars/{{ teleport_type }}.yaml"
+
+        # DynamoDB, S3, Route53のリソースチェック
+        - include: check.yaml
+          when: teleport_auth_service.enabled  == 'yes'
+
+        - debug: msg="{{ teleport_auth_service }}"
+        - debug: msg="{{ teleport_proxy_service }}"
     roles:
         - { role: teleport }
         - { role: teleport-ssm-publish-tokens, when: "teleport_auth_service.enabled  == 'yes'" }

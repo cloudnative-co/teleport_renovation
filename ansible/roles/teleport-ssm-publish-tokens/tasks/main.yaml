@@ -25,6 +25,9 @@
     mode: "u+rwx,g-wx,o-wx"
   sudo: yes
 
+- shell: teleport-ssm-publish-tokens
+  become: yes
+
 - systemd:
     name: teleport-ssm-publish-tokens.service
     state: restarted
