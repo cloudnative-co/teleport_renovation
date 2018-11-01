@@ -14,9 +14,9 @@ teleport_auth_service:
 
 teleport_proxy_service:
     enabled: "yes"
-    listen_addr: 0.0.0.0:3023
-    tunnel_listen_addr: 0.0.0.0:3080
-    web_listen_addr: 0.0.0.0:3080
+    listen_addr: "0.0.0.0:{{ teleport_proxy_ssh_listen_port }}"
+    tunnel_listen_addr: "0.0.0.0:{{ teleport_proxy_tunnel_listen_port }}"
+    web_listen_addr: "0.0.0.0:{{ teleport_proxy_web_listen_port }}"
     public_addr: "{{ teleport_proxy_domain }}:443"
     https_cert_file: "{{ teleport_data_dir }}fullchain.pem"
     https_key_file: "{{ teleport_data_dir }}privkey.pem"

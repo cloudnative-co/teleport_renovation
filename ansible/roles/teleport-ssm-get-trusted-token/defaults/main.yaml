@@ -1,0 +1,9 @@
+---
+# TeleportのModule Binaryのインストール先
+teleport_bin_dir: /usr/local/bin/
+
+# Teleportのデータディレクトリ
+teleport_data_dir: /var/lib/teleport/
+
+# AWSのリージョン
+teleport_region: ap-northeast-1

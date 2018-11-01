@@ -3,13 +3,13 @@
 
 - template:
     src: templates/teleport-lock.j2
-    dest: /usr/local/bin/teleport-lock
+    dest: "{{ teleport_bin_dir }}teleport-lock"
     mode: "0755"
   sudo: yes
 
 - template:
     src: templates/teleport-ssm-publish-tokens.j2
-    dest: /usr/local/bin/teleport-ssm-publish-tokens
+    dest: "{{ teleport_bin_dir }}teleport-ssm-publish-tokens"
     mode: "0755"
   sudo: yes
 

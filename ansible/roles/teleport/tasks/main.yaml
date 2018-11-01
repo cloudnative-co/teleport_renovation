@@ -74,20 +74,20 @@
          enabled: yes
     become: yes
 
-  - name: Wait 3025
+  - name: Wait for auth api service port
     wait_for:
-        port: 3025
+        port: {{ teleport_auth_api_listen_port }}
         delay: 10
     when: teleport_auth_service.enabled == 'yes'
 
-  - name: Wait 3080
+  - name: Wait for proxy servic port
     wait_for:
-        port: 3080
+        port: {{ teleport_proxy_web_listen_port }}
         delay: 10
     when: teleport_proxy_service.enabled == 'yes'
 
-  - name: Wait Port 3022
+  - name: Wait for Node service port
     wait_for:
-        port: 3022
+        port: {{ teleport_node_ssh_service_port }}
         delay: 10
     when: teleport_proxy_service.enabled == 'no' and teleport_auth_service.enabled == 'no'

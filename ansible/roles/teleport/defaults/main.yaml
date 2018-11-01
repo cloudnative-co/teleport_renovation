@@ -49,6 +49,24 @@ teleport_storage:
     audit_events_uri: "dynamodb://{{ teleport_dynamodb_table }}-events"
     audit_sessions_uri: "s3://{{ teleport_bucket }}/records"
 
+# ノード用SSHポート
+teleport_node_ssh_service_port: 3022
+
+# Proxy用SSHポート
+teleport_proxy_ssh_listen_port: 3023
+
+# Proxy用tunnel待ち受けポート
+teleport_proxy_tunnel_listen_port: 3024
+
+# Auth用api待ち受けポート
+teleport_auth_api_listen_port: 3025
+
+# Proxy用WEB待ち受けポート
+teleport_proxy_web_listen_port: 3080
+
+
+
+
 # -----------------------------------------------------------------------------
 # teleportの設定ファイル用変数
 # -----------------------------------------------------------------------------
@@ -67,15 +85,15 @@ teleport_common:
 # -----------------------------------------------------------------------------
 teleport_auth_service:
     enabled: "yes"
-    listen_addr: 0.0.0.0:3025
+    listen_addr: "0.0.0.0:{{ teleport_auth_api_listen_port }}"
     license_file: "{{ teleport_data_dir }}{{ teleport_license.split('/')[-1] }}"
     authentication:
         type: local
         second_factor: "off"
         u2f:
-            app_id: https://localhost:3080
+            app_id: "https://localhost:{{ teleport_proxy_web_listen_port }}"
             facets:
-            - https://localhost:3080
+            - "https://localhost:{{ teleport_proxy_web_listen_port }}"
     cluster_name: "{{ teleport_cluster_name }}"
 
 # -----------------------------------------------------------------------------
@@ -83,9 +101,9 @@ teleport_auth_service:
 # -----------------------------------------------------------------------------
 teleport_proxy_service:
     enabled: "yes"
-    listen_addr: 0.0.0.0:3023
-    tunnel_listen_addr: 0.0.0.0:3080
-    web_listen_addr: 0.0.0.0:3080
+    listen_addr: "0.0.0.0:{{ teleport_proxy_ssh_listen_port }}"
+    tunnel_listen_addr: "0.0.0.0:{{ teleport_proxy_tunnel_listen_port }}"
+    web_listen_addr: "0.0.0.0:{{ teleport_proxy_web_listen_port }}"
     public_addr: "{{ teleport_proxy_domain }}:443"
     https_cert_file: "{{ teleport_data_dir }}{{ teleport_certificate.split('/')[-1] }}"
     https_key_file: "{{ teleport_data_dir }}{{ teleport_private_key.split('/')[-1] }}"

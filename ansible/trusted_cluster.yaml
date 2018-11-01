@@ -1,0 +1,47 @@
+---
+  - hosts: "{{ host_name }}"
+    vars_files:
+        - vars/trusted_cluster.yaml
+    pre_tasks:
+        # ---------------------------------------------------------------------
+        # 主となるTeleport ClusterのCluster Nameを指定
+        # ---------------------------------------------------------------------
+      - pause:
+            prompt: Enter the Master teleport trusted cluster name
+        register: var_regist
+        when: teleport_master_cluster_name == ''
+      - set_fact:
+            teleport_master_cluster_name: "{{ var_regist.user_input }}"
+        when: var_regist.user_input is defined
+        # ---------------------------------------------------------------------
+        # 主となるTeleport ClusterのProxyのIPアドレスを指定
+        # ---------------------------------------------------------------------
+      - pause:
+            prompt: Enter the Master teleport proxy server IPv4 address
+        register: var_regist
+        when: teleport_master_cluster_addr == ''
+      - set_fact:
+            teleport_master_cluster_addr: "{{ var_regist.user_input }}"
+        when: var_regist.user_input is defined
+        # ---------------------------------------------------------------------
+        # 主となるTeleport ClusterのProxyのトンネル待ち受けポート
+        # ---------------------------------------------------------------------
+      - pause:
+            prompt: Enter the Master teleport proxy tunnel port
+        register: var_regist
+        when: teleport_proxy_tunnel_listen_port == ''
+      - set_fact:
+            teleport_proxy_tunnel_listen_port: "{{ var_regist.user_input }}"
+        when: var_regist.user_input is defined
+        # ---------------------------------------------------------------------
+        # 主となるTeleport ClusterのProxyのWEB待ち受けポート
+        # ---------------------------------------------------------------------
+      - pause:
+            prompt: Enter the Master teleport proxy web port
+        register: var_regist
+        when: teleport_proxy_web_listen_port == ''
+      - set_fact:
+            teleport_proxy_web_listen_port: "{{ var_regist.user_input }}"
+        when: var_regist.user_input is defined
+    roles:
+        - { role: teleport-ssm-get-trusted-token }

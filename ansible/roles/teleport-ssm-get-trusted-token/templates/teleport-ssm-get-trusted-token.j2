@@ -1,0 +1,22 @@
+#!/bin/bash
+
+TOKEN=$(aws ssm get-parameter --with-decryption --name /teleport/{{ teleport_master_cluster_name }}/tokens/trusted_cluster --region {{ teleport_region }} --query Parameter.Value --output text)
+
+cat >/tmp/trusted_cluster.yaml <<EOF
+kind: trusted_cluster
+version: v2
+metadata:
+  name: {{ teleport_master_cluster_name }}
+spec:
+  enabled: true
+  token: $TOKEN
+  tunnel_addr: {{ teleport_master_cluster_addr }}:{{ teleport_proxy_tunnel_listen_port }}
+  web_proxy_addr: {{ teleport_master_cluster_addr }}:{{ teleport_proxy_web_listen_port }}
+  role_map:
+    - remote: "admin"
+      local: ["admin"]
+EOF
+
+tctl create /tmp/trusted_cluster.yaml
+rm -f /tmp/trusted_cluster.yaml
+rm -f /tmp/teleport-ssm-get-trusted-token

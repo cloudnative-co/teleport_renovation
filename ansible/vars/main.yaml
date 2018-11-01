@@ -37,3 +37,6 @@ teleport_email: seba@cloudnative.co.jp
 # teleportで使用するDynamoDBのデーブル名
 teleport_dynamodb_table: teleport.dev.cloudnative.co.jp
 
+# Proxy用tunnel待ち受けポート
+teleport_proxy_tunnel_listen_port: 3080
+

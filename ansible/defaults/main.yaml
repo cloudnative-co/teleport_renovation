@@ -44,3 +44,18 @@ teleport_storage:
     table_name: "{{ teleport_dynamodb_table }}"
     audit_events_uri: "dynamodb://{{ teleport_dynamodb_table }}-events"
     audit_sessions_uri: "s3://{{ teleport_bucket }}/records"
+
+# ノード用SSHポート
+teleport_node_ssh_service_port: 3022
+
+# Proxy用SSHポート
+teleport_proxy_ssh_listen_port: 3023
+
+# Proxy用tunnel待ち受けポート
+teleport_proxy_tunnel_listen_port: 3024
+
+# Auth用api待ち受けポート
+teleport_auth_api_listen_port: 3025
+
+# Proxy用WEB待ち受けポート
+teleport_proxy_web_listen_port: 3080

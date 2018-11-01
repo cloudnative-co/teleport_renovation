@@ -30,4 +30,4 @@ teleport_proxy_service:
 # -----------------------------------------------------------------------------
 teleport_ssh_service:
     enabled: "yes"
-    listen_addr: 0.0.0.0:3022
+    listen_addr: "0.0.0.0:{{ teleport_node_ssh_service_port }}"

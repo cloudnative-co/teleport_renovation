@@ -7,14 +7,14 @@ Type=simple
 Restart=always
 RestartSec=5
 {% if teleport_auth_service.enabled == 'no' %}
-ExecStartPre=/usr/local/bin/teleport-ssm-get-token
+ExecStartPre={{ teleport_bin_dir }}teleport-ssm-get-token
 {% endif %}
 {% if teleport_proxy_service.enabled == 'yes' %}
-ExecStartPre=/usr/local/bin/teleport-push-cert
+ExecStartPre={{ teleport_bin_dir }}teleport-push-cert
 {% endif %}
-ExecStart={{ teleport_bin_dir }}teleport start --config=/etc/teleport.yaml --diag-addr=127.0.0.1:3434 --pid-file=/var/run/teleport/teleport.pid -d
+ExecStart={{ teleport_bin_dir }}teleport start --config=/etc/teleport.yaml --diag-addr=127.0.0.1:3434 --pid-file=/var/run/teleport.pid -d
 ExecReload=/bin/kill -HUP $MAINPID
-PIDFile=/var/run/teleport/teleport.pid
+PIDFile=/var/run/teleport.pid
 LimitNOFILE=65536
 
 [Install]

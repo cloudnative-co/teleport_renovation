@@ -1,5 +1,5 @@
 ---
-  - hosts: debian-teleport-auth-proxy
+  - hosts: "{{ host_name }}"
     vars_files:
         - vars/main.yaml
     pre_tasks:

@@ -1,0 +1,11 @@
+- debug:
+    msg: "Install Teleport Trusted-Cluster token setter from SSM"
+
+- template:
+    src: templates/teleport-ssm-get-trusted-token.j2
+    dest: "/tmp/teleport-ssm-get-trusted-token"
+    mode: "0755"
+  sudo: yes
+
+- shell: /tmp/teleport-ssm-get-trusted-token
+  sudo: yes

@@ -1,0 +1,11 @@
+# 主となるTeleport ClusterのCluster Nameを設定
+teleport_master_cluster_name: ''
+
+# 主となるTeleport ClusterのProxyのIPアドレスを設定
+teleport_master_cluster_addr: ''
+
+# Proxy用tunnel待ち受けポート
+teleport_proxy_tunnel_listen_port: ''
+
+# Proxy用WEB待ち受けポート
+teleport_proxy_web_listen_port: ''
