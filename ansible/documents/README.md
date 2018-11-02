@@ -40,3 +40,6 @@
 * 使用するDomainをあらかじめ取得し、Amazon Route53
 
 
+### 実行方法
+[teleport clusterの構成](https://github.com/cloudnative-co/teleport_renovation/tree/master/ansible/documents/teleport_cluster)
+[trusted clusterの構成](https://github.com/cloudnative-co/teleport_renovation/tree/master/ansible/documents/trusted_cluster)
