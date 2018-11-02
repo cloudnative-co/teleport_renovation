@@ -9,3 +9,4 @@
 2. [authサーバーの構成](https://github.com/cloudnative-co/teleport_renovation/blob/master/ansible/documents/teleport_cluster/AUTH.md)
 3. [proxyサーバーの構成](https://github.com/cloudnative-co/teleport_renovation/blob/master/ansible/documents/teleport_cluster/PROXY.md)
 3. [nodeサーバーの構成](https://github.com/cloudnative-co/teleport_renovation/blob/master/ansible/documents/teleport_cluster/NODE.md)
+4. [auth-proxyサーバーの構成](https://github.com/cloudnative-co/teleport_renovation/blob/master/ansible/documents/teleport_cluster/AUTH-PROXY.md)
