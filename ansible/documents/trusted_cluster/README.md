@@ -9,3 +9,4 @@ Teleport Cluster間でtunnelして接続が可能です
 
 
 1. [PlayBookのパラメーターについて](https://github.com/cloudnative-co/teleport_renovation/blob/master/ansible/documents/trusted_cluster/PARAMETERS.md)
+2. [Trusted Clusterの構成](https://github.com/cloudnative-co/teleport_renovation/blob/master/ansible/documents/trusted_cluster/CLUSTER.md)
