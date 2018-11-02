@@ -37,7 +37,7 @@
 * 対象となるhostはsystemdが動作している事
 * 対象hostに対してAWS IAM Roleが割り振られ[既定の権限](https://github.com/cloudnative-co/teleport_renovation/tree/master/manual-deploy/iam)が存在する事
 * 構築するサーバーの種別に応じたSecurityGroupを設定する事[PORTS](https://gravitational.com/teleport/docs/admin-guide/#ports)
-* 使用するDomainをあらかじめ取得し、Amazon Route53
+* 使用するDomainをあらかじめ取得し、Amazon Route53にHosted-Zoneを作成
 
 
 ### 実行方法
