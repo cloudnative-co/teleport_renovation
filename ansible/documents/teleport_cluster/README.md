@@ -18,7 +18,7 @@ TeleportはAuthサーバーにて発行したTokenをProxy、Nodeの設定ファ
 Teleportを起動する事でAuth⇔Proxy、Auth⇔NodeのJoinを行っています。
 本Ansibleではこの手順を簡略化する為に以下の様な方法をとっています
 
-![](https://github.com/cloudnative-co/teleport_renovation/ansible/documents/img/teleport_cluster.svg)
+![teleport_cluster.svg](https://github.com/cloudnative-co/teleport_renovation/blob/master/ansible/documents/img/teleport_cluster.svg)
 
 上図はTeleport Clusterのシンプルな構成です  
 1. Authサーバー
