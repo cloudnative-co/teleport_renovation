@@ -9,7 +9,7 @@ $ ansible-playbook --extra-vars '{ "host_name": "slave-auth" }'
 
 
 | 名称 | 説明 | extra-vars指定 | trusted_cluster.yaml指定 | prompt |
-| --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | host_name | 対象となるHostを指定します | 可 | 不可 | 不可 |
 | teleport_master_cluster_name | MasterとなるTeleport Clusterの名称 | 可 | 可 | Enter the Master teleport trusted cluster name |
 | teleport_master_cluster_addr | MasterとなるTeleport ClusterのProxtyサーバーの接続用アドレス(ドメイン) | 可 | 可 | Enter the Master teleport proxy server IPv4 address |
