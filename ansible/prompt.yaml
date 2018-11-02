@@ -23,7 +23,7 @@
     # アーキテクチャの指定
     # -------------------------------------------------------------------------
   - pause:
-        prompt: Enter the teleport architecture [ex) 3.0.0-rc.6]
+        prompt: Enter the teleport architecture
     register: var_regist
     when: teleport_architecture == ''
   - set_fact:
@@ -116,7 +116,7 @@
     # AWS DynamoDB Table
     # -------------------------------------------------------------------------
   - pause:
-        prompt: Enter the S3 bucket name
+        prompt: Enter the DynamoDB table name
     register: var_regist
     when: teleport_dynamodb_table == ''
   - set_fact:

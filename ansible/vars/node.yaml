@@ -3,7 +3,7 @@
 # teleportの設定ファイル用変数
 # -----------------------------------------------------------------------------
 teleport_common:
-    auth_token: /var/lib/teleport/token
+    auth_token: "{{ teleport_data_dir }}token"
     nodename: "{{ ansible_fqdn }}"
     advertise_ip: "{{ ansible_default_ipv4.address }}"
     log:

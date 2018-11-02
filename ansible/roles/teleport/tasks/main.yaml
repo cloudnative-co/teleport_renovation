@@ -76,18 +76,18 @@
 
   - name: Wait for auth api service port
     wait_for:
-        port: {{ teleport_auth_api_listen_port }}
+        port: "{{ teleport_auth_api_listen_port }}"
         delay: 10
     when: teleport_auth_service.enabled == 'yes'
 
   - name: Wait for proxy servic port
     wait_for:
-        port: {{ teleport_proxy_web_listen_port }}
+        port: "{{ teleport_proxy_web_listen_port }}"
         delay: 10
     when: teleport_proxy_service.enabled == 'yes'
 
   - name: Wait for Node service port
     wait_for:
-        port: {{ teleport_node_ssh_service_port }}
+        port: "{{ teleport_node_ssh_service_port }}"
         delay: 10
     when: teleport_proxy_service.enabled == 'no' and teleport_auth_service.enabled == 'no'
