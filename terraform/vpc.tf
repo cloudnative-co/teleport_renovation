@@ -10,7 +10,7 @@ resource "aws_vpc" "teleport" {
   enable_dns_support    = true
   enable_dns_hostnames  = true
   tags {
-    Name = "${var.cluster_name}"
+    Name = "${var.cluster_main_name}"
   }
 }
 
@@ -18,7 +18,7 @@ resource "aws_vpc" "teleport" {
 resource "aws_internet_gateway" "teleport" {
   vpc_id = "${aws_vpc.teleport.id}"
   tags {
-    Name = "${var.cluster_name}"
+    Name = "${var.cluster_main_name}"
   }
 }
 
@@ -31,7 +31,7 @@ resource "aws_subnet" "public" {
   availability_zone = "${element(local.azs, count.index)}"
 
   tags {
-    Name = "${var.cluster_name}-public-${element(local.azs, count.index)}"
+    Name = "${var.cluster_main_name}-public-${element(local.azs, count.index)}"
   }
 }
 
@@ -40,7 +40,7 @@ resource "aws_route_table" "public" {
   vpc_id = "${aws_vpc.teleport.id}"
 
   tags {
-    Name = "${var.cluster_name}-public-${element(local.azs, count.index)}"
+    Name = "${var.cluster_main_name}-public-${element(local.azs, count.index)}"
   }
 }
 
@@ -67,7 +67,7 @@ resource "aws_subnet" "protected" {
   availability_zone = "${element(local.azs, count.index)}"
 
   tags {
-    Name = "${var.cluster_name}-protected-${element(local.azs, count.index)}"
+    Name = "${var.cluster_main_name}-protected-${element(local.azs, count.index)}"
   }
 }
 
@@ -76,7 +76,7 @@ resource "aws_route_table" "protected" {
   vpc_id = "${aws_vpc.teleport.id}"
 
   tags {
-    Name = "${var.cluster_name}-protected-${element(local.azs, count.index)}"
+    Name = "${var.cluster_main_name}-protected-${element(local.azs, count.index)}"
   }
 }
 
@@ -103,7 +103,7 @@ resource "aws_subnet" "private" {
   availability_zone = "${element(local.azs, count.index)}"
 
   tags {
-    Name = "${var.cluster_name}-private-${element(local.azs, count.index)}"
+    Name = "${var.cluster_main_name}-private-${element(local.azs, count.index)}"
   }
 }
 
@@ -112,7 +112,7 @@ resource "aws_route_table" "private" {
   vpc_id = "${aws_vpc.teleport.id}"
 
   tags {
-    Name = "${var.cluster_name}-private-${element(local.azs, count.index)}"
+    Name = "${var.cluster_main_name}-private-${element(local.azs, count.index)}"
   }
 }
 
@@ -128,7 +128,7 @@ resource "aws_eip" "nat" {
   count = "${length(local.azs)}"
   vpc   = true
   tags {
-    Name = "${var.cluster_name}"
+    Name = "${var.cluster_main_name}"
   }
 }
 
@@ -138,6 +138,6 @@ resource "aws_nat_gateway" "teleport" {
   subnet_id     = "${element(aws_subnet.public.*.id, count.index)}"
   depends_on    = ["aws_subnet.public", "aws_internet_gateway.teleport"]
   tags {
-    Name = "${var.cluster_name}"
+    Name = "${var.cluster_main_name}"
   }
 }

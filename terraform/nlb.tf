@@ -2,7 +2,7 @@
 # Auth NLB
 
 resource "aws_lb" "auth" {
-  name            = "${var.cluster_name}-auth"
+  name            = "${var.cluster_main_name}-auth"
   internal        = true
   subnets         = ["${aws_subnet.public.*.id}"]
   load_balancer_type = "network"
@@ -10,12 +10,12 @@ resource "aws_lb" "auth" {
 	enable_cross_zone_load_balancing = "true"
 
   tags {
-    Name = "${var.cluster_name}-auth-lb"
+    Name = "${var.cluster_main_name}-auth-lb"
   }
 }
 
 resource "aws_lb_target_group" "auth" {
-  name     = "${var.cluster_name}-auth"
+  name     = "${var.cluster_main_name}-auth"
   port     = 3025
   vpc_id   = "${aws_vpc.teleport.id}"
   protocol = "TCP"
@@ -45,7 +45,7 @@ resource "aws_lb_target_group_attachment" "auth" {
 
 # Proxy
 resource "aws_lb" "proxy" {
-  name            = "${var.cluster_name}-proxy"
+  name            = "${var.cluster_main_name}-proxy"
   internal        = false
   subnets         = ["${aws_subnet.public.*.id}"]
   load_balancer_type = "network"
@@ -53,12 +53,12 @@ resource "aws_lb" "proxy" {
 	enable_cross_zone_load_balancing = "true"
 
   tags {
-    Name = "${var.cluster_name}-proxy-lb"
+    Name = "${var.cluster_main_name}-proxy-lb"
   }
 }
 
 resource "aws_lb_target_group" "proxy" {
-  name     = "${var.cluster_name}-proxy"
+  name     = "${var.cluster_main_name}-proxy"
   port     = 3023
   vpc_id   = "${aws_vpc.teleport.id}"
   protocol = "TCP"
@@ -78,7 +78,7 @@ resource "aws_lb_listener" "proxy" {
 
 # Web Proxy
 resource "aws_lb_target_group" "proxy_web" {
-  name     = "${var.cluster_name}-proxy-web"
+  name     = "${var.cluster_main_name}-proxy-web"
   port     = 3080
   vpc_id   = "${aws_vpc.teleport.id}"
   protocol = "TCP"

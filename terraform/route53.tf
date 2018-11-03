@@ -4,7 +4,7 @@ data "aws_route53_zone" "teleport" {
 
 resource "aws_route53_record" "proxy" {
   zone_id = "${data.aws_route53_zone.teleport.zone_id}"
-  name    = "proxy.${var.domain}"
+  name    = "${var.cluster_main_name}-proxy.${var.domain}"
   type    = "A"
 
   alias {
@@ -16,7 +16,7 @@ resource "aws_route53_record" "proxy" {
 
 resource "aws_route53_record" "auth" {
   zone_id = "${data.aws_route53_zone.teleport.zone_id}"
-  name    = "auth.${var.domain}"
+  name    = "${var.cluster_main_name}-auth.${var.domain}"
   type    = "A"
 
   alias {

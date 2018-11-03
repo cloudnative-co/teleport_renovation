@@ -6,8 +6,12 @@ variable "region" {
 
 #=================================================
 # Cluster Name
-variable "cluster_name" {
-	default = "teleport"
+variable "cluster_main_name" {
+	default = "teleport-main"
+}
+
+variable "cluster_sub_name" {
+  default = "teleport-sub"
 }
 
 #=================================================
@@ -51,6 +55,33 @@ variable "node" {
     }
 }
 
+variable "bastion" {
+    type = "map"
+    default = {
+				count = 1
+        instance_type = "t2.micro"
+				volume_size = 30
+    }
+}
+
+variable "sub" {
+    type = "map"
+    default = {
+        count = 1
+        instance_type = "t2.micro"
+        volume_size = 30
+    }
+}
+
+variable "node_sub" {
+    type = "map"
+    default = {
+        count = 1
+        instance_type = "t2.micro"
+        volume_size = 30
+    }
+}
+
 #=================================================
 # VPC
 
@@ -64,6 +95,12 @@ variable cidr_split {
         protected = 2
         private = 4
     }
+}
+
+variable "ip_addresses_ssh" {
+    default = [
+      "0.0.0.0/0"
+    ]
 }
 
 
