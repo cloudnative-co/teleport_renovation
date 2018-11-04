@@ -46,7 +46,7 @@ SubからMain環境へ信頼関係を結び、Main環境で統合的に管理で
 # 公開鍵を登録
 export TF_VAR_public_key=""
 # Route53に登録済みのドメインを使用
-export TF_VAR_domain="teleport.dev.cloudnative.co.jp"
+export TF_VAR_domain="teleport.example.com"
 # 設定済みのProfile名を使用
 export AWS_PROFILE="saml"
 # リージョンを指定
