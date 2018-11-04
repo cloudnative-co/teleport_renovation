@@ -12,7 +12,15 @@ resource "aws_iam_instance_profile" "sub" {
 }
 resource "aws_iam_role_policy_attachment" "sub-ssm" {
     role = "${aws_iam_role.sub.name}"
-    policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+    policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+}
+resource "aws_iam_role_policy_attachment" "sub-readonly" {
+    role = "${aws_iam_role.sub.name}"
+    policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+}
+resource "aws_iam_role_policy_attachment" "sub-route53" {
+    role = "${aws_iam_role.sub.name}"
+    policy_arn = "arn:aws:iam::aws:policy/AmazonRoute53FullAccess"
 }
 resource "aws_iam_role_policy_attachment" "sub-s3" {
     role = "${aws_iam_role.sub.name}"
@@ -64,5 +72,9 @@ resource "aws_iam_instance_profile" "sub_node" {
 }
 resource "aws_iam_role_policy_attachment" "sub-node-ssm" {
     role = "${aws_iam_role.sub_node.name}"
-    policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+    policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+}
+resource "aws_iam_role_policy_attachment" "sub-node-readonly" {
+    role = "${aws_iam_role.sub_node.name}"
+    policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }

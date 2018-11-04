@@ -29,11 +29,15 @@ resource "aws_iam_instance_profile" "proxy" {
 }
 resource "aws_iam_role_policy_attachment" "proxy-ssm" {
     role = "${aws_iam_role.proxy.name}"
-		policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+		policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
 }
 resource "aws_iam_role_policy_attachment" "proxy-s3" {
     role = "${aws_iam_role.proxy.name}"
 		policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+}
+resource "aws_iam_role_policy_attachment" "proxy-readonly" {
+    role = "${aws_iam_role.proxy.name}"
+		policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
 
 
@@ -51,11 +55,23 @@ resource "aws_iam_instance_profile" "auth" {
 }
 resource "aws_iam_role_policy_attachment" "auth-ssm" {
     role = "${aws_iam_role.auth.name}"
-    policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+    policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
 }
 resource "aws_iam_role_policy_attachment" "auth-s3" {
     role = "${aws_iam_role.auth.name}"
 		policy_arn = "${aws_iam_policy.auth-s3.arn}"
+}
+resource "aws_iam_role_policy_attachment" "auth-readonly" {
+    role = "${aws_iam_role.auth.name}"
+		policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+}
+resource "aws_iam_role_policy_attachment" "auth-route53" {
+    role = "${aws_iam_role.auth.name}"
+		policy_arn = "arn:aws:iam::aws:policy/AmazonRoute53FullAccess"
+}
+resource "aws_iam_role_policy_attachment" "auth-kms" {
+    role = "${aws_iam_role.auth.name}"
+		policy_arn = "arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser"
 }
 resource "aws_iam_role_policy_attachment" "auth-dynamo" {
     role = "${aws_iam_role.auth.name}"
@@ -101,7 +117,11 @@ resource "aws_iam_instance_profile" "node" {
 }
 resource "aws_iam_role_policy_attachment" "node-ssm" {
     role = "${aws_iam_role.auth.name}"
-    policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+    policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+}
+resource "aws_iam_role_policy_attachment" "node-readonly" {
+    role = "${aws_iam_role.node.name}"
+		policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
 
 #=================================================
@@ -117,7 +137,7 @@ resource "aws_iam_instance_profile" "bastion" {
     role = "${aws_iam_role.bastion.name}"
 }
 resource "aws_iam_role_policy_attachment" "bastion-ssm" {
-    role = "${aws_iam_role.auth.name}"
-    policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+    role = "${aws_iam_role.bastion.name}"
+    policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
 }
 
