@@ -5,4 +5,4 @@
     src: templates/teleport-ssm-get-token.j2
     dest: "{{ teleport_bin_dir }}teleport-ssm-get-token"
     mode: "0755"
-  sudo: yes
+  become: yes
