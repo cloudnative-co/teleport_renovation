@@ -34,5 +34,5 @@ teleport_dynamodb_table: "develop.teleport.domain.co.jp"
 4. ansible-playbookを実行
 
 ```
-$ ansible-playbook --extra-vars '{ "host_name" : node-server }'
+$ ansible-playbook install.yaml --extra-vars '{ "host_name" : node-server }'
 ```

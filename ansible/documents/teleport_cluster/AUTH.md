@@ -28,11 +28,11 @@ teleport_dynamodb_table: "develop.teleport.domain.co.jp"
 
 6. ansible-playbookを実行
 ```
-$ ansible-playbook --extra-vars '{ "host_name" : auth-server }'
+$ ansible-playbook install.yaml --extra-vars '{ "host_name" : auth-server }'
 ```
 
 `vars/main.yaml`を指定しない場合  
 以下の様な`--extra-vars`の指定でも同様の動作が可能です
 ```
-$ ansible-playbook --extra-vars '{"hone_name": "auth-server", "teleport_type": "auth", "teleport_proxy_domain": "develop.teleport.domain.co.jp", "teleport_cluster_name": "develop.teleport", "teleport_bucket": "develop.teleport.domain.co.jp-audit-session", "teleport_email": "info@domain.co.jp", "teleport_dynamodb_table": "develop.teleport.domain.co.jp"}'
+$ ansible-playbook install.yaml --extra-vars '{"hone_name": "auth-server", "teleport_type": "auth", "teleport_proxy_domain": "develop.teleport.domain.co.jp", "teleport_cluster_name": "develop.teleport", "teleport_bucket": "develop.teleport.domain.co.jp-audit-session", "teleport_email": "info@domain.co.jp", "teleport_dynamodb_table": "develop.teleport.domain.co.jp"}'
 ```

@@ -19,7 +19,7 @@ teleport_proxy_web_listen_port: '3080'
 
 3. SlaveとなるTeleport ClusterのAuthサーバーに対してansibleを実行
 ```
-$ ansible-playbook --extra-vars '{ "host_name" : slave-auth-server }'
+$ ansible-playbook trusted_cluster.yaml --extra-vars '{ "host_name" : slave-auth-server }'
 ```
 
 `vars/trusted_cluster.yaml`を指定しない場合  
