@@ -18,5 +18,5 @@ CERT=$({{ teleport_bin_dir }}tctl auth export --type=tls)
 aws ssm put-parameter --name /teleport/{{ teleport_cluster_name }}/ca --region {{ teleport_region }} --type="String" --value="${CERT}" --overwrite
 
 # trusted cluster token
-TRUSTED_CLUSTER_TOKEN=$(sudo /usr/local/bin/tctl tokens add --type=trusted_cluster --ttl=4h 2>&1 | grep token:| sed 's/The cluster invite token: //g')
-aws ssm put-parameter --name /teleport/teleport.dev.cloudnative.co.jp/tokens/trusted_cluster --region ap-northeast-1 --type="SecureString" --value="${TRUSTED_CLUSTER_TOKEN}" --overwrite
+TRUSTED_CLUSTER_TOKEN=$(sudo {{ teleport_bin_dir }}tctl tokens add --type=trusted_cluster --ttl=4h 2>&1 | grep token:| sed 's/The cluster invite token: //g')
+aws ssm put-parameter --name /teleport/{{ teleport_cluster_name }}/trusted_cluster --region {{ teleport_region }} --type="SecureString" --value="${TRUSTED_CLUSTER_TOKEN}" --overwrite
