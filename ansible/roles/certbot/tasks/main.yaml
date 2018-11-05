@@ -2,10 +2,10 @@
     name: certbot
     state: present
     version: 0.21.0
-  sudo: yes
+  become: yes
 
 - pip: 
     name: certbot-dns-route53
     state: present
     version: 0.21.0
-  sudo: yes
+  become: yes

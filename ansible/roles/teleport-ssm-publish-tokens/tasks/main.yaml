@@ -5,25 +5,25 @@
     src: templates/teleport-lock.j2
     dest: "{{ teleport_bin_dir }}teleport-lock"
     mode: "0755"
-  sudo: yes
+  become: yes
 
 - template:
     src: templates/teleport-ssm-publish-tokens.j2
     dest: "{{ teleport_bin_dir }}teleport-ssm-publish-tokens"
     mode: "0755"
-  sudo: yes
+  become: yes
 
 - template:
     src: templates/teleport-ssm-publish-tokens.service.j2
     dest: /etc/systemd/system/teleport-ssm-publish-tokens.service
     mode: "u+rwx,g-wx,o-wx"
-  sudo: yes
+  become: yes
 
 - template:
     src: templates/teleport-ssm-publish-tokens.timer.j2
     dest: /etc/systemd/system/teleport-ssm-publish-tokens.timer
     mode: "u+rwx,g-wx,o-wx"
-  sudo: yes
+  become: yes
 
 - shell: teleport-ssm-publish-tokens
   become: yes

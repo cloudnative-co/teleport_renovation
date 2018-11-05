@@ -20,7 +20,7 @@ variable "cluster_sub_name" {
 variable "ami_id" {
     type = "map"
     default = {
-        ap-northeast-1 = "ami-00f9d04b3b3092052"
+        ap-northeast-1 = "ami-0b47ed98608f1b8a4"
     }
 }
 

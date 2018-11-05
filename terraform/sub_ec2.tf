@@ -18,7 +18,7 @@ resource "aws_instance" "sub" {
     volume_size = "${lookup(var.sub, "volume_size")}"
   }
   tags = {
-    Name = "${var.cluster_sub_name}-sub-${count.index+1}"
+    Name = "${var.cluster_sub_name}-${count.index+1}"
     Roles = "sub"
   }
 }
@@ -48,7 +48,7 @@ resource "aws_instance" "node_sub" {
     volume_size = "${lookup(var.sub, "volume_size")}"
   }
   tags = {
-    Name = "${var.cluster_sub_name}-sub-${count.index+1}"
+    Name = "${var.cluster_sub_name}-node-${count.index+1}"
     Roles = "sub"
   }
 }

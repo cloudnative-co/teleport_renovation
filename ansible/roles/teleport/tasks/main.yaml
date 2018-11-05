@@ -6,13 +6,13 @@
     file:
         path: "/var/run/teleport"
         state: directory
-    sudo: yes
+    become: yes
 
   - name: Create teleport data directory
     file:
         path: "{{ teleport_data_dir }}"
         state: directory
-    sudo: yes
+    become: yes
 
   - name: Get teleport binary
     unarchive:
@@ -29,7 +29,7 @@
         src: "{{ src_path }}/teleport"
         dest: "{{ teleport_bin_dir }}"
         mode: "u+rwx,g-w,o-w"
-    sudo: yes
+    become: yes
 
   - name: Install tctl binary
     copy:
@@ -37,7 +37,7 @@
         src: "{{ src_path }}/tctl"
         dest: "{{ teleport_bin_dir }}"
         mode: "u+rwx,g-w,o-w"
-    sudo: yes
+    become: yes
 
   - name: Install tsh binary
     copy:
@@ -45,26 +45,26 @@
         src: "{{ src_path }}/tsh"
         dest: "{{ teleport_bin_dir }}"
         mode: "u+rwx,g-w,o-w"
-    sudo: yes
+    become: yes
 
   - name: Set teleport enterprise lisence
     copy:
         src: "{{ teleport_license }}"
         dest: "{{ teleport_data_dir }}"
-    sudo: yes
+    become: yes
     when: teleport_edition == 'enterprise'
 
   - name: Set teleport setting file
     template:
         src: templates/teleport.yaml.j2
         dest: /etc/teleport.yaml
-    sudo: yes
+    become: yes
 
   - name: Set teleport systemd service file
     template:
         src: templates/teleport.service.j2
         dest: /etc/systemd/system/teleport.service
-    sudo: yes
+    become: yes
 
   - name: Enable teleport systemd service
     systemd:

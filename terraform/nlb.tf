@@ -76,6 +76,13 @@ resource "aws_lb_listener" "proxy" {
   }
 }
 
+resource "aws_lb_target_group_attachment" "proxy" {
+  count  = "${lookup(var.proxy, "count")}"
+  target_group_arn = "${aws_lb_target_group.proxy.arn}"
+  target_id = "${element(aws_instance.proxy.*.id, count.index)}"
+  port = 3023
+}
+
 # Web Proxy
 resource "aws_lb_target_group" "proxy_web" {
   name     = "${var.cluster_main_name}-proxy-web"
@@ -94,4 +101,11 @@ resource "aws_lb_listener" "proxy_web" {
     target_group_arn = "${aws_lb_target_group.proxy_web.arn}"
     type             = "forward"
   }
+}
+
+resource "aws_lb_target_group_attachment" "proxy_web" {
+  count  = "${lookup(var.proxy, "count")}"
+  target_group_arn = "${aws_lb_target_group.proxy_web.arn}"
+  target_id = "${element(aws_instance.proxy.*.id, count.index)}"
+  port = 3080
 }

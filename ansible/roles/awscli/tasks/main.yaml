@@ -1,4 +1,4 @@
 - pip:
     name: awscli
     state: present
-  sudo: yes
+  become: yes
