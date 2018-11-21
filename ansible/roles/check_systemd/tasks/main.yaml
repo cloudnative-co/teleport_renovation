@@ -1,0 +1,14 @@
+---
+  - shell: which systemctl
+    ignore_errors: True
+    register: result
+
+  - set_fact:
+        ansible_daemon_service: "systemd"
+    when: result.rc == 0
+
+  - set_fact:
+        ansible_daemon_service: "initd"
+    when: result.rc != 0
+
+  - debug: msg="System daemon service is {{ ansible_daemon_service }}"

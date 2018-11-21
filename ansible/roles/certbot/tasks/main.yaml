@@ -1,11 +1,21 @@
-- pip: 
-    name: certbot
-    state: present
-    version: 0.21.0
-  become: yes
+  - pip: 
+        name: certbot
+        state: present
+        version: 0.21.0
+    become: yes
 
-- pip: 
-    name: certbot-dns-route53
-    state: present
-    version: 0.21.0
-  become: yes
+  - pip: 
+        name: certbot-dns-route53
+        state: present
+        version: 0.21.0
+    become: yes
+
+  - name: aws-cli error check
+    shell: aws
+    ignore_errors: True
+    register: result
+
+  - name: "Measure: aws-cli [ImportError: cannot import name AliasedEventEmitter]"
+    shell: yum downgrade aws-cli.noarch python27-botocore -y
+    when: ansible_pkg_mgr == 'yum' and result.rc != 2
+    become: yes

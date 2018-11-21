@@ -1,0 +1,110 @@
+#!/bin/bash
+#
+# chkconfig: - 99 15
+# description: teleport daemono
+# processname: teleport
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# ネットワークが有効でない場合は即時終了します。
+. /etc/sysconfig/network
+if [ ${NETWORKING} = "no" ] ; then
+    exit 0
+fi
+
+BASENAME=`basename $0`
+if [ -L $0 ]; then
+    BASENAME=`find $0 -name $BASENAME -printf %l`
+    BASENAME=`basename $BASENAME`
+fi
+
+
+BASEPATH={{ teleport_bin_dir }}
+confname="/etc/teleport.yaml"
+procname=${BASEPATH}$BASENAME
+pidfile=/var/run/${BASENAME}.pid
+lockfile=/var/lock/${BASENAME}
+
+
+check() {
+    # Check that we're a privileged user
+    [ `id -u` = 0 ] || exit 4
+    # Check if teleport is executable
+    test -x ${procname} || exit 5
+}
+
+start() {
+    check
+    # Check if it is already running
+    if [ ! -f ${lockfile} ]; then
+        echo -n $"Starting teleport daemon: "
+{% if teleport_auth_service.enabled == 'no' %}
+        {{ teleport_bin_dir }}teleport-ssm-get-token
+{% endif %}
+{% if teleport_proxy_service.enabled == 'yes' %}
+        {{ teleport_bin_dir }}teleport-push-cert
+{% endif %}
+        daemon ${procname} start --pid-file=${pidfile} --config=${confname} --diag-addr=127.0.0.1:3434 &
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && touch ${lockfile}
+        echo
+    fi
+    return $RETVAL
+}
+
+status() {
+    check
+    echo -n $"Stat teleport daemon: "
+    ${procname} status
+    RETVAL=$?
+    echo
+    return $RETVAL
+}
+
+
+stop() {
+    check
+    echo -n $"Stopping teleport daemon: "
+    killproc ${procname}
+    RETVAL=$?
+    [ $RETVAL -eq 0 ] && rm -f ${lockfile}
+    echo
+    return $RETVAL
+}
+
+restart() {
+    stop
+    start
+}
+
+reload() {
+
+    check
+
+    trap "" SIGHUP
+    action $"Reloading teleport daemon:" killall -HUP teleport
+    RETVAL=$?
+    return $RETVAL
+}
+
+case "$1" in
+  start)
+      start
+      ;;
+  stop)
+      stop
+      ;;
+  status)
+      status
+      ;;
+  reload)
+      reload
+      ;;
+  restart)
+      restart
+      ;;
+  *)
+  echo $"Usage: $BASENAME {start|stop|restart|status|reload}"
+  exit 1 esac exit $?
+esac

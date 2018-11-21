@@ -64,14 +64,49 @@
     template:
         src: templates/teleport.service.j2
         dest: /etc/systemd/system/teleport.service
+    when: ansible_daemon_service == "systemd"
     become: yes
 
   - name: Enable teleport systemd service
     systemd:
-         name: teleport.service
-         state: restarted
-         daemon_reload: yes
-         enabled: yes
+        name: teleport.service
+        state: restarted
+        daemon_reload: yes
+        enabled: yes
+    when: ansible_daemon_service == "systemd"
+    become: yes
+
+  - name: Set teleport initd service file
+    template:
+        src: templates/teleport.init.j2
+        dest: /etc/init.d/teleport
+        mode: "u+rwx,g+rx,o+rx"
+    when: ansible_daemon_service == "initd"
+    become: yes
+
+  - name: Enable teleport service 
+    service:
+        name: teleport
+        enabled: yes
+    when: ansible_daemon_service == "initd"
+    become: yes
+
+  - stat:
+        path: "/var/lock/teleport"
+    when: ansible_daemon_service == "initd"
+    register: stat
+
+  - file:
+        path: "/var/lock/teleport"
+        state: absent
+    when: ansible_daemon_service == "initd" and stat.stat.exists
+    become: yes
+
+  - name: Start teleport service
+    service:
+        name: teleport
+        state: restarted
+    when: ansible_daemon_service == "initd"
     become: yes
 
   - name: Wait for auth api service port

@@ -1,4 +1,6 @@
 dependencies:
+    # 対象がSystemdかinitdかを確認する
+  - { role: check_systemd } 
     # Let's encrypt からCertを取得してS3にアップロード
   - { role: teleport-get-cert, when: "teleport_auth_service.enabled  == 'yes'" }
     # S3からCertを取得してローカル保存

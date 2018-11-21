@@ -1,4 +1,6 @@
-- pip:
-    name: awscli
-    state: present
-  become: yes
+---
+  - pip:
+        name: awscli
+        state: present
+    when: ansible_distribution != 'Amazon'
+    become: yes

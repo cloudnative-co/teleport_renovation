@@ -1,43 +1,60 @@
-- debug:
-    msg: "Install Teleport SSM Publisher"
+---
+  - debug:
+        msg: "Install Teleport SSM Publisher"
 
-- template:
-    src: templates/teleport-lock.j2
-    dest: "{{ teleport_bin_dir }}teleport-lock"
-    mode: "0755"
-  become: yes
+  - template:
+        src: templates/teleport-lock.j2
+        dest: "{{ teleport_bin_dir }}teleport-lock"
+        mode: "0755"
+    become: yes
 
-- template:
-    src: templates/teleport-ssm-publish-tokens.j2
-    dest: "{{ teleport_bin_dir }}teleport-ssm-publish-tokens"
-    mode: "0755"
-  become: yes
+  - template:
+        src: templates/teleport-ssm-publish-tokens.j2
+        dest: "{{ teleport_bin_dir }}teleport-ssm-publish-tokens"
+        mode: "0755"
+    become: yes
 
-- template:
-    src: templates/teleport-ssm-publish-tokens.service.j2
-    dest: /etc/systemd/system/teleport-ssm-publish-tokens.service
-    mode: "u+rwx,g-wx,o-wx"
-  become: yes
+  - name: add cron
+    cron:
+        name: "get certificate"
+        special_time: hourly
+        job: "{{ teleport_bin_dir }}teleport-ssm-publish-tokens"
+    when: ansible_daemon_service == "initd"
+    become: yes
 
-- template:
-    src: templates/teleport-ssm-publish-tokens.timer.j2
-    dest: /etc/systemd/system/teleport-ssm-publish-tokens.timer
-    mode: "u+rwx,g-wx,o-wx"
-  become: yes
+  - shell: "{{ teleport_bin_dir }}teleport-ssm-publish-tokens"
+    when: ansible_daemon_service == "initd"
+    become: yes
 
-- shell: teleport-ssm-publish-tokens
-  become: yes
+  - template:
+        src: templates/teleport-ssm-publish-tokens.service.j2
+        dest: /etc/systemd/system/teleport-ssm-publish-tokens.service
+        mode: "u+rwx,g-wx,o-wx"
+    when: ansible_daemon_service == "systemd"
+    become: yes
 
-- systemd:
-    name: teleport-ssm-publish-tokens.service
-    state: restarted
-    daemon_reload: yes
-    enabled: yes
-  become: yes
+  - template:
+        src: templates/teleport-ssm-publish-tokens.timer.j2
+        dest: /etc/systemd/system/teleport-ssm-publish-tokens.timer
+        mode: "u+rwx,g-wx,o-wx"
+    when: ansible_daemon_service == "systemd"
+    become: yes
 
-- systemd:
-    name: teleport-ssm-publish-tokens.timer
-    state: restarted
-    daemon_reload: yes
-    enabled: yes
-  become: yes
+  - shell: "{{ teleport_bin_dir }}teleport-ssm-publish-tokens"
+    become: yes
+
+  - systemd:
+        name: teleport-ssm-publish-tokens.service
+        state: restarted
+        daemon_reload: yes
+        enabled: yes
+    when: ansible_daemon_service == "systemd"
+    become: yes
+
+  - systemd:
+        name: teleport-ssm-publish-tokens.timer
+        state: restarted
+        daemon_reload: yes
+        enabled: yes
+    when: ansible_daemon_service == "systemd"
+    become: yes

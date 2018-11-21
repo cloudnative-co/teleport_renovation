@@ -1,4 +1,10 @@
-- package:
-    name: python-pip
-    state: present
-  become: yes
+---
+  - shell: which pip
+    ignore_errors: True
+    register: result
+
+  - package:
+        name: python-pip
+        state: present
+    become: yes
+    when: result.rc != 0

@@ -15,7 +15,7 @@ then
 fi
 
 echo "No certs/keys found in ${S3_BUCKET}. Going to request certificate for ${DOMAIN}."
-certbot certonly -n --agree-tos --email ${EMAIL} --dns-route53 -d ${DOMAIN}
+/usr/local/bin/certbot certonly -n --agree-tos --email ${EMAIL} --dns-route53 -d ${DOMAIN}
 echo "Got certificate for ${DOMAIN}. Syncing to S3."
 
 aws s3 sync /etc/letsencrypt/ s3://${S3_BUCKET} --sse=AES256

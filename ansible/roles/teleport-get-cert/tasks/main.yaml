@@ -1,36 +1,49 @@
-- debug:
-    msg: "Install Teleport Get Certificate"
+---
+  - debug:
+        msg: "Install Teleport Get Certificate"
 
-- template:
-    src: templates/teleport-get-cert.j2
-    dest: "{{ teleport_bin_dir }}teleport-get-cert"
-    mode: "0755"
-  become: yes
+  - template:
+        src: templates/teleport-get-cert.j2
+        dest: "{{ teleport_bin_dir }}teleport-get-cert"
+        mode: "0755"
+    become: yes
 
-- template:
-    src: templates/teleport-get-cert.service.j2
-    dest: /etc/systemd/system/teleport-get-cert.service
-    mode: "0755"
-  become: yes
+  - template:
+        src: templates/teleport-get-cert.service.j2
+        dest: /etc/systemd/system/teleport-get-cert.service
+        mode: "0755"
+    when: ansible_daemon_service == "systemd"
+    become: yes
 
-- template:
-    src: templates/teleport-get-cert.timer.j2
-    dest: /etc/systemd/system/teleport-get-cert.timer
-    mode: "0755"
-  become: yes
+  - template:
+        src: templates/teleport-get-cert.timer.j2
+        dest: /etc/systemd/system/teleport-get-cert.timer
+        mode: "0755"
+    when: ansible_daemon_service == "systemd"
+    become: yes
 
-- shell: teleport-get-cert
-  become: yes
+  - name: add cron
+    cron:
+        name: "get certificate"
+        special_time: hourly
+        job: "{{ teleport_bin_dir }}teleport-lock | {{ teleport_bin_dir }}teleport-get-cert"
+    when: ansible_daemon_service == "initd"
+    become: yes
 
-- systemd:
-    name: teleport-get-cert.service
-    daemon_reload: yes
-    enabled: yes
-  become: yes
+  - shell: "{{ teleport_bin_dir }}teleport-get-cert"
+    become: yes
 
-- systemd:
-    name: teleport-get-cert.timer
-    state: restarted
-    daemon_reload: yes
-    enabled: yes
-  become: yes
+  - systemd:
+        name: teleport-get-cert.service
+        daemon_reload: yes
+        enabled: yes
+    when: ansible_daemon_service == "systemd"
+    become: yes
+
+  - systemd:
+        name: teleport-get-cert.timer
+        state: restarted
+        daemon_reload: yes
+        enabled: yes
+    when: ansible_daemon_service == "systemd"
+    become: yes
