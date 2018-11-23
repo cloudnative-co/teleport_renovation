@@ -26,11 +26,11 @@
 | 名称 | 補足 |
 | --- | --- |
 | Let's Encrypt | Proxyサーバー用の証明書をauthサーバーにて発行します |
-| Amazon S3| 事前に空のBucket作成しておく。  teleportのaudit-sessionと証明書情報が保存されます |
-| Amazon DynamoDB | 使用するTableが存在しない事  内部で動的に作成します。</br>authサーバーのストレージ及び、Lock情報が保存されます |
-| AWS Systems Manager | サーバー間でのtokenの受け渡しに使用されます |
-| Amazon Route53 | 事前にHosted-Zoneを作成しDomainを確保しておく必要があります |
-| Amazon EC2 | ansibleの構成対象となるhostはec2上での動作を前提とします。  また事前に対象となるhostをec2にて起動しておく必要があります。 |
+| Amazon S3| 事前に空のBucket作成しておくこと  teleportのaudit-sessionと証明書情報が保存されます |
+| Amazon DynamoDB | 使用するTableが存在しないこと  初回起動時に自動的に作成します。</br>authサーバーのストレージ及び、Lock情報が保存されます |
+| AWS Systems Manager | サーバー間でのtokenの受け渡しに使用します |
+| Amazon Route53 | 事前にHosted-Zoneを作成し、所有しているDomainをホストしておくこと |
+| Amazon EC2 | ansibleの構成対象となるhostはec2上での動作を前提とします。  また事前に対象となるhostをec2にて起動しておくこと |
 
 ### インフラ条件
 * 対象hostはdebian-stretch-hvm-x86_64-gp2-2018-08-14-82175-572488bb-fc09-4638-8628-e1e1d26436f4-ami-00bbb68c7e6ca73ce.4 (ami-0b47ed98608f1b8a4)上での動作を前提に検証を行っています
