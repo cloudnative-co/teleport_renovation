@@ -1,5 +1,5 @@
 # Trusted Clusterの構成
-1. MasterとなるTeleport ClusterとSlaveとなるTeleport Clusterは構成します<br/>構成が済んでいない場合は[teleport clusterの構成](https://github.com/cloudnative-co/teleport_renovation/tree/master/ansible/documents/teleport_cluster)を参照
+1. MasterとなるTeleport ClusterとSlaveとなるTeleport Clusterを構成します<br/>構成が済んでいない場合は[teleport clusterの構成](https://github.com/cloudnative-co/teleport_renovation/tree/master/ansible/documents/teleport_cluster)を参照
 2. MasterとなるTeleport ClusterのProxyサーバーのアドレス、ポート番号、クラスター名から`vars/trusted_cluster.yaml`を作成
 
 `vars/trusted_cluster.yaml`
