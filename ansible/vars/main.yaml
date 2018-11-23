@@ -20,22 +20,22 @@ teleport_data_dir: /var/lib/teleport/
 teleport_auth_server_addr: ""
 
 # typeがproxyもしくはauth-proxy時のdomain名
-teleport_proxy_domain: teleport.dev.cloudnative.co.jp
+teleport_proxy_domain: teleport.example.com
 
 # authサーバー作成時にのteleportのクラスター名
-teleport_cluster_name: teleport.dev.cloudnative.co.jp
+teleport_cluster_name: teleport.example.com
 
 # リージョン
 teleport_region: ap-northeast-1
 
 # teleportで使用するS3のBucket名
-teleport_bucket: teleport.dev.cloudnative.co.jp-audit-session
+teleport_bucket: teleport.example.com-audit-session
 
 # teleportのサーバーにてLet's encrypt実行時に使用するEMmail
-teleport_email: seba@cloudnative.co.jp
+teleport_email: test@teleport.example.com
 
 # teleportで使用するDynamoDBのデーブル名
-teleport_dynamodb_table: teleport.dev.cloudnative.co.jp
+teleport_dynamodb_table: teleport.example.com
 
 # Proxy用tunnel待ち受けポート
 teleport_proxy_tunnel_listen_port: 3080
