@@ -22,4 +22,4 @@ teleport_proxy_service:
     https_key_file: "{{ teleport_data_dir }}privkey.pem"
 
 teleport_ssh_service:
-    enabled: "no"
+    enabled: "yes"

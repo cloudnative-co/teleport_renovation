@@ -10,6 +10,8 @@ teleport_common:
         severity: DEBUG
     data_dir: "{{ teleport_data_dir }}"
     storage: "{{ teleport_storage }}"
+    auth_servers:
+        - "{{ teleport_auth_server_addr }}"
 
 # -----------------------------------------------------------------------------
 # teleportの設定ファイル用変数(auth用)
@@ -44,4 +46,4 @@ teleport_proxy_service:
 # teleportの設定ファイル用変数(ssh用)
 # -----------------------------------------------------------------------------
 teleport_ssh_service:
-    enabled: "no"
+    enabled: "yes"
