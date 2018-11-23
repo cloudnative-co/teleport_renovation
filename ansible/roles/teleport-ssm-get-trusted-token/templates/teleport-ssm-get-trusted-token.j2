@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TOKEN=$(aws ssm get-parameter --with-decryption --name /teleport/{{ teleport_master_cluster_name }}/tokens/trusted_cluster --region {{ teleport_region }} --query Parameter.Value --output text)
+TOKEN=$(aws ssm get-parameter --with-decryption --name /teleport/{{ teleport_master_cluster_name }}/trusted_cluster --region {{ teleport_region }} --query Parameter.Value --output text)
 
 cat >/tmp/trusted_cluster.yaml <<EOF
 kind: trusted_cluster
