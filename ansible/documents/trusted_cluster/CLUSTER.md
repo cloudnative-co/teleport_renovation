@@ -1,5 +1,5 @@
 # Trusted Clusterの構成
-1. MasterとなるTeleport ClusterとSlaveとなるTeleport Clusterを構成します<br/>構成が済んでいない場合は[teleport clusterの構成](https://github.com/cloudnative-co/teleport_renovation/tree/master/ansible/documents/teleport_cluster)を参照
+1. MasterとなるTeleport ClusterとSlaveとなるTeleport Clusterを連結するTrusted Cluserを構成する<br/>それぞれのTeleport Clusterの構成が済んでいない場合は[teleport clusterの構成](https://github.com/cloudnative-co/teleport_renovation/tree/master/ansible/documents/teleport_cluster)を参照して構成しておくこと
 2. MasterとなるTeleport ClusterのProxyサーバーのアドレス、ポート番号、クラスター名から`vars/trusted_cluster.yaml`を作成
 
 `vars/trusted_cluster.yaml`
@@ -23,5 +23,5 @@ $ ansible-playbook trusted_cluster.yaml --extra-vars '{ "host_name" : slave-auth
 ```
 
 `vars/trusted_cluster.yaml`を指定しない場合  
-以下の様な`--extra-vars`の指定でも同様の動作が可能です
-また、`vars/trusted_cluster.yaml`の値が全てBlank("")の場合、実行時にプロンプトにて値の入力を求められます
+以下の様な`--extra-vars`の指定でも同様の動作が可能
+また、`vars/trusted_cluster.yaml`の値が全てBlank("")の場合、実行時にプロンプトにて値の入力を求められる
