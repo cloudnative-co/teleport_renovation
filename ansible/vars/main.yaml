@@ -29,7 +29,7 @@ teleport_cluster_name: teleport.example.com
 teleport_region: ap-northeast-1
 
 # teleportで使用するS3のBucket名
-teleport_bucket: teleport.example.com-audit-session
+teleport_bucket: teleport.example.com-certs
 
 # teleportのサーバーにてLet's encrypt実行時に使用するEMmail
 teleport_email: test@teleport.example.com
