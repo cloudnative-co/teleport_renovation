@@ -34,11 +34,11 @@
 
 ### インフラ条件
 * 対象hostはdebian-stretch-hvm-x86_64-gp2-2018-08-14-82175-572488bb-fc09-4638-8628-e1e1d26436f4-ami-00bbb68c7e6ca73ce.4 (ami-0b47ed98608f1b8a4)上での動作を前提に検証を行っています
-* 対象となるhostはsystemdが動作している事
-* 対象hostに対してAWS IAM Roleが割り振られ[既定の権限](https://github.com/cloudnative-co/teleport_renovation/tree/master/manual-deploy/iam)が存在する事
-* 構築するサーバーの種別に応じたSecurityGroupを設定する事[PORTS](https://gravitational.com/teleport/docs/admin-guide/#ports)
+* 対象となるhostはsystemdが動作していること
+* 対象hostに対してAWS IAM Roleが割り振られ[既定の権限](https://github.com/cloudnative-co/teleport_renovation/tree/master/manual-deploy/iam)が存在すること
+* 構築するサーバーの種別に応じたSecurityGroupを設定すること
+* 利用ポートについては、[こちら](https://gravitational.com/teleport/docs/admin-guide/#ports)を参照
 * 使用するDomainをあらかじめ取得し、Amazon Route53にHosted-Zoneを作成
-
 
 ### 実行方法
 [teleport clusterの構成](https://github.com/cloudnative-co/teleport_renovation/tree/master/ansible/documents/teleport_cluster)  
