@@ -6,6 +6,8 @@ teleport_common:
         severity: DEBUG
     data_dir: "{{ teleport_data_dir }}"
     storage: "{{ teleport_storage }}"
+    auth_servers:
+        - "{{ teleport_auth_server_addr }}"
 
 teleport_auth_service:
     enabled: "yes"
@@ -25,4 +27,4 @@ teleport_proxy_service:
     enabled: "no"
 
 teleport_ssh_service:
-    enabled: "no"
+    enabled: "yes"
