@@ -1,8 +1,8 @@
 # Nodeサーバーの構成
 
 前提としてauthサーバーとproxyサーバーの構成が完了しているものとして進めます。  
-完了していない場合は[authサーバーの構成](https://github.com/cloudnative-co/teleport_renovation/blob/master/ansible/documents/teleport_cluster/AUTH.md)と
-[proxyサーバーの構成](https://github.com/cloudnative-co/teleport_renovation/blob/master/ansible/documents/teleport_cluster/PROXY.md)を先に実行してくださいを先に実行してください
+完了していない場合は、[authサーバーの構成](https://github.com/cloudnative-co/teleport_renovation/blob/master/ansible/documents/teleport_cluster/AUTH.md)と
+[proxyサーバーの構成](https://github.com/cloudnative-co/teleport_renovation/blob/master/ansible/documents/teleport_cluster/PROXY.md)を先に実行してください
 
 1. authサーバーのIPアドレスを取得してください
 2. EC2を起動して`node-server`の名称でansibleのhostとして使用できるように設定する
