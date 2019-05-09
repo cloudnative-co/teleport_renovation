@@ -34,9 +34,9 @@ TerminalまたはWeb UIからのアクセスすることができる。
 ### 作成環境
 
 - Main: Teleportを最大構成（各ロール分割）で作成した環境
-- Slave: Teleportを最小構成で作成した環境
+- Sub: Teleportを最小構成で作成した環境
 
-SlaveからMain環境へ信頼関係を結び、Main環境で統合的に管理できる環境となる。
+SubからMain環境へ信頼関係を結び、Main環境で統合的に管理できる環境となる。
 
 ### Terraformの実行
 
